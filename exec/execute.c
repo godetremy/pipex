@@ -6,7 +6,7 @@
 /*   By: rgodet <rgodet@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 11:52:02 by rgodet            #+#    #+#             */
-/*   Updated: 2024/12/23 13:58:53 by rgodet           ###   ########.fr       */
+/*   Updated: 2024/12/23 14:06:36 by rgodet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,12 @@ static int	ft_input_to_temp_file(char *input)
 	size_t	read_bytes;
 
 	input_fd = open(input, O_RDONLY);
-	temp_fd = open("/tmp", O_TMPFILE | O_RDWR, 0);
+	temp_fd = open("/tmp/pipex_temp", O_CREAT | O_TRUNC | O_WRONLY, 0644);
 	read_bytes = read(input_fd, buffer, MAX_BUFFER_SIZE);
 	write(temp_fd, buffer, read_bytes);
 	close(input_fd);
-	return (temp_fd);
+	close(temp_fd);
+	return (open("/tmp/pipex_temp", O_RDONLY));
 }
 
 int	*ft_execute_cmd(t_params params, char **envp, int *status)
@@ -74,7 +75,7 @@ int	*ft_execute_cmd(t_params params, char **envp, int *status)
 		cmd2_pid = create_fork(params.cmd2, pipe_fd[0], output_fd, envp);
 	close(pipe_fd[0]);
 	if (cmd1_pid != 0)
-		waitpid(cmd1_pid, status, 0);
+		waitpid(cmd1_pid, NULL, 0);
 	if (cmd2_pid != 0)
 		waitpid(cmd2_pid, status, 0);
 	close(input_fd);

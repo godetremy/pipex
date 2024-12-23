@@ -13,10 +13,6 @@
 #ifndef PIPEX_H
 # define PIPEX_H
 
-# ifndef _GNU_SOURCE
-#  define _GNU_SOURCE 1
-# endif
-
 # include "libft/libft.h"
 # include <unistd.h>
 # include <stdlib.h>

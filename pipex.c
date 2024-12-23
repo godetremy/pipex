@@ -36,6 +36,7 @@ int	main(int argc, char **argv, char **envp)
 	params.cmd1 = parse_command(params.cmd1_str, envp);
 	params.cmd2 = parse_command(params.cmd2_str, envp);
 	ft_execute_cmd(params, envp, &status);
+	unlink("/tmp/pipex_temp");
 	free_cmd(params.cmd1);
 	free_cmd(params.cmd2);
 	return (status);
