@@ -6,12 +6,16 @@
 /*   By: rgodet <rgodet@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 09:05:17 by rgodet            #+#    #+#             */
-/*   Updated: 2024/12/23 12:15:32 by rgodet           ###   ########.fr       */
+/*   Updated: 2024/12/23 13:55:41 by rgodet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
+
+# ifndef _GNU_SOURCE
+#  define _GNU_SOURCE 1
+# endif
 
 # include "libft/libft.h"
 # include <unistd.h>
