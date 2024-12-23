@@ -6,16 +6,16 @@
 /*   By: rgodet <rgodet@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 10:50:52 by rgodet            #+#    #+#             */
-/*   Updated: 2024/12/09 11:10:54 by rgodet           ###   ########.fr       */
+/*   Updated: 2024/12/23 12:14:44 by rgodet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 
-int log_error(char *msg)
+int	log_error(char *msg)
 {
-  write(2, "\033[31m[ERROR] \033[0m", 18);
-  write(2, msg, ft_strlen(msg));
-  write(2, "\n", 1);
-  return (1);
+	write(2, "\033[31m[ERROR] \033[0m", 18);
+	write(2, msg, ft_strlen(msg));
+	write(2, "\n", 1);
+	return (1);
 }
