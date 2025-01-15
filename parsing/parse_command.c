@@ -6,7 +6,7 @@
 /*   By: rgodet <rgodet@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 12:11:42 by rgodet            #+#    #+#             */
-/*   Updated: 2025/01/15 10:12:11 by rgodet           ###   ########.fr       */
+/*   Updated: 2025/01/15 16:19:46 by rgodet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,5 @@ t_cmd	parse_command(char *cmd, char **envp)
 		command.path = get_dot_slash_path(cmd + 1, envp);
 	else
 		command.path = get_command_path(command.args[0], envp);
-	if (command.path == NULL)
-    {
-        free(command.args);
-        command.args = NULL;
-    }
 	return (command);
 }

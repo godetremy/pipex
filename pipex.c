@@ -6,7 +6,7 @@
 /*   By: rgodet <rgodet@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 09:05:29 by rgodet            #+#    #+#             */
-/*   Updated: 2025/01/15 10:06:55 by rgodet           ###   ########.fr       */
+/*   Updated: 2025/01/15 16:20:27 by rgodet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,11 @@ static void	free_cmd(t_cmd cmd)
 		i++;
 	}
 	free(cmd.args);
-	if (cmd.path)
+	if (cmd.path != NULL)
 		free(cmd.path);
 }
 
+#include <stdio.h>
 int	main(int argc, char **argv, char **envp)
 {
 	int			status;
