@@ -6,7 +6,7 @@
 /*   By: rgodet <rgodet@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 11:52:02 by rgodet            #+#    #+#             */
-/*   Updated: 2025/01/15 17:22:58 by rgodet           ###   ########.fr       */
+/*   Updated: 2025/01/15 17:34:57 by rgodet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ static pid_t	create_fork_out(t_cmd cmd, int pipe[2], char *outfile,
 	if (cmd_pid == 0)
 	{
 		outfile_fd = open(outfile, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+		if (outfile_fd == -1)
+			exit(log_error("Failed to create output file"));
 		dup2(outfile_fd, STDOUT_FILENO);
 		dup2(pipe[0], STDIN_FILENO);
 		close(outfile_fd);
