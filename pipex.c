@@ -27,7 +27,6 @@ static void	free_cmd(t_cmd cmd)
 		free(cmd.path);
 }
 
-#include <stdio.h>
 int	main(int argc, char **argv, char **envp)
 {
 	int			status;
