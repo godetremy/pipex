@@ -6,7 +6,8 @@ SRC=pipex.c \
 	logger/log_error.c \
 	file/check_file_access.c \
 	exec/execute.c \
-	parsing/parse_command.c
+	parsing/parse_command.c \
+	parsing/get_path.c
 OBJ=$(SRC:.c=.o)
 
 LIBFT_DIR=libft

@@ -6,7 +6,7 @@
 /*   By: rgodet <rgodet@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 09:05:17 by rgodet            #+#    #+#             */
-/*   Updated: 2024/12/23 13:55:41 by rgodet           ###   ########.fr       */
+/*   Updated: 2025/01/14 18:33:21 by rgodet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,6 @@ t_file_access	check_file_access(char *file);
 int				log_error(char *msg);
 int				*ft_execute_cmd(t_params params, char **envp, int *status);
 t_cmd			parse_command(char *cmd, char **envp);
+char			**get_path_env(char **envp);
 
 #endif //PIPEX_H

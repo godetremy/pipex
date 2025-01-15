@@ -6,29 +6,11 @@
 /*   By: rgodet <rgodet@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 12:11:42 by rgodet            #+#    #+#             */
-/*   Updated: 2024/12/23 12:13:35 by rgodet           ###   ########.fr       */
+/*   Updated: 2025/01/15 10:12:11 by rgodet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
-
-static char	**get_path_env(char **envp)
-{
-	char	**path_split;
-	int		i;
-
-	i = 0;
-	while (envp[i])
-	{
-		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
-		{
-			path_split = ft_split(envp[i] + 5, ':');
-			return (path_split);
-		}
-		i++;
-	}
-	return (NULL);
-}
 
 static char	*join_path(char *path, char *cmd)
 {
@@ -62,6 +44,8 @@ static char	*get_command_path(char *cmd, char **envp)
 	char	*cmd_path;
 
 	path = get_path_env(envp);
+	if (!path)
+		return (NULL);
 	i = 0;
 	while (path[i])
 	{
@@ -79,14 +63,39 @@ static char	*get_command_path(char *cmd, char **envp)
 	return (NULL);
 }
 
+static char	*get_dot_slash_path(char *cmd, char **envp)
+{
+	int	i;
+
+	i = 0;
+	while (envp[i])
+	{
+		if (ft_strncmp(envp[i], "PWD=", 4) == 0)
+		{
+			return (ft_strjoin(envp[i] + 4, cmd));
+		}
+		i++;
+	}
+	return (NULL);
+}
+
 t_cmd	parse_command(char *cmd, char **envp)
 {
 	t_cmd	command;
 
 	command.args = ft_split(cmd, ' ');
-	if (*cmd == '/')
+	if (*cmd == '\0')
+		command.path = NULL;
+	else if (*cmd == '/')
 		command.path = ft_strdup(cmd);
+	else if (*cmd == '.' && *(cmd + 1) == '/')
+		command.path = get_dot_slash_path(cmd + 1, envp);
 	else
 		command.path = get_command_path(command.args[0], envp);
+	if (command.path == NULL)
+    {
+        free(command.args);
+        command.args = NULL;
+    }
 	return (command);
 }

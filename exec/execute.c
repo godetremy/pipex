@@ -6,7 +6,7 @@
 /*   By: rgodet <rgodet@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 11:52:02 by rgodet            #+#    #+#             */
-/*   Updated: 2024/12/23 14:06:36 by rgodet           ###   ########.fr       */
+/*   Updated: 2025/01/15 12:24:02 by rgodet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ static pid_t	create_fork(t_cmd cmd, int input_fd, int output_fd, char **envp)
 	{
 		dup2(input_fd, STDIN_FILENO);
 		dup2(output_fd, STDOUT_FILENO);
+		close(input_fd);
+		close(output_fd);
 		execve(cmd.path, cmd.args, envp);
 		exit(log_error("Failed to execute command"));
 	}
@@ -55,6 +57,28 @@ static int	ft_input_to_temp_file(char *input)
 	return (open("/tmp/pipex_temp", O_RDONLY));
 }
 
+static int	ft_next_cmd_part2(int cmd2_pid, int input_fd, int output_fd,
+								t_params params)
+{
+	int	status;
+
+	status = 0;
+	if (cmd2_pid != 0)
+		waitpid(cmd2_pid, &status, 0);
+	else
+	{
+		if (params.file2 == NULL)
+			status = 1;
+		else
+			status = 127;
+	}
+	if (params.file1 != NULL)
+		close(input_fd);
+	if (params.file2 != NULL)
+		close(output_fd);
+	return (status);
+}
+
 int	*ft_execute_cmd(t_params params, char **envp, int *status)
 {
 	int		pipe_fd[2];
@@ -76,9 +100,6 @@ int	*ft_execute_cmd(t_params params, char **envp, int *status)
 	close(pipe_fd[0]);
 	if (cmd1_pid != 0)
 		waitpid(cmd1_pid, NULL, 0);
-	if (cmd2_pid != 0)
-		waitpid(cmd2_pid, status, 0);
-	close(input_fd);
-	close(output_fd);
+	*status = ft_next_cmd_part2(cmd2_pid, input_fd, output_fd, params);
 	return (status);
 }
