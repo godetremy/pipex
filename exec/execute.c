@@ -6,7 +6,7 @@
 /*   By: rgodet <rgodet@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 11:52:02 by rgodet            #+#    #+#             */
-/*   Updated: 2025/01/16 14:08:31 by rgodet           ###   ########.fr       */
+/*   Updated: 2025/01/16 14:41:01 by rgodet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ static pid_t	create_fork_out(t_params params, int pipe[2], char *outfile,
 		outfile_fd = open(outfile, O_CREAT | O_TRUNC | O_WRONLY, 0644);
 		if (outfile_fd == -1)
 		{
-            free_cmd(params.cmd1);
-        	free_cmd(params.cmd2);
+			free_cmd(params.cmd1);
+			free_cmd(params.cmd2);
 			exit(set_error(errno, outfile));
-        }
+		}
 		dup2(outfile_fd, STDOUT_FILENO);
 		dup2(pipe[0], STDIN_FILENO);
 		close(outfile_fd);
@@ -56,7 +56,7 @@ static pid_t	create_fork_out(t_params params, int pipe[2], char *outfile,
 		close(pipe[1]);
 		execve(params.cmd2.path, params.cmd2.args, envp);
 		free_cmd(params.cmd1);
-        free_cmd(params.cmd2);
+		free_cmd(params.cmd2);
 		exit(set_error(errno, params.cmd2.path));
 	}
 	return (cmd_pid);
