@@ -6,7 +6,7 @@
 /*   By: rgodet <rgodet@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 09:05:17 by rgodet            #+#    #+#             */
-/*   Updated: 2025/01/16 14:07:17 by rgodet           ###   ########.fr       */
+/*   Updated: 2025/01/16 14:39:21 by rgodet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,6 @@
 # include <fcntl.h>
 # include <errno.h>
 # include <stdio.h>
-
-# ifndef MAX_BUFFER_SIZE
-#  define MAX_BUFFER_SIZE 4096
-# endif
 
 struct s_file_access
 {
