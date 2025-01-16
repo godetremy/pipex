@@ -6,7 +6,7 @@
 /*   By: rgodet <rgodet@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 09:05:29 by rgodet            #+#    #+#             */
-/*   Updated: 2025/01/15 16:20:27 by rgodet           ###   ########.fr       */
+/*   Updated: 2025/01/16 09:37:40 by rgodet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int	main(int argc, char **argv, char **envp)
 	params.cmd1 = parse_command(params.cmd1_str, envp);
 	params.cmd2 = parse_command(params.cmd2_str, envp);
 	ft_execute_cmd(params, envp, &status);
-	unlink("/tmp/pipex_temp");
 	free_cmd(params.cmd1);
 	free_cmd(params.cmd2);
 	return (status);
