@@ -6,7 +6,7 @@
 /*   By: rgodet <rgodet@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 11:52:02 by rgodet            #+#    #+#             */
-/*   Updated: 2025/01/16 14:41:01 by rgodet           ###   ########.fr       */
+/*   Updated: 2025/01/16 17:43:57 by rgodet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ static pid_t	create_fork_out(t_params params, int pipe[2], char *outfile,
 		{
 			free_cmd(params.cmd1);
 			free_cmd(params.cmd2);
+			close(pipe[0]);
+			close(pipe[1]);
 			exit(set_error(errno, outfile));
 		}
 		dup2(outfile_fd, STDOUT_FILENO);
