@@ -6,7 +6,7 @@
 /*   By: rgodet <rgodet@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 11:52:02 by rgodet            #+#    #+#             */
-/*   Updated: 2025/01/15 17:34:57 by rgodet           ###   ########.fr       */
+/*   Updated: 2025/01/16 09:51:53 by rgodet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static pid_t	create_fork_in(t_cmd cmd, char *infile, int pipe[2],
 		close(pipe[0]);
 		close(pipe[1]);
 		execve(cmd.path, cmd.args, envp);
-		exit(log_error("Failed to execute command"));
+		exit(set_error(8, cmd.path));
 	}
 	return (cmd_pid);
 }
@@ -44,14 +44,14 @@ static pid_t	create_fork_out(t_cmd cmd, int pipe[2], char *outfile,
 	{
 		outfile_fd = open(outfile, O_CREAT | O_TRUNC | O_WRONLY, 0644);
 		if (outfile_fd == -1)
-			exit(log_error("Failed to create output file"));
+			exit(set_error(errno, outfile));
 		dup2(outfile_fd, STDOUT_FILENO);
 		dup2(pipe[0], STDIN_FILENO);
 		close(outfile_fd);
 		close(pipe[0]);
 		close(pipe[1]);
 		execve(cmd.path, cmd.args, envp);
-		exit(log_error("Failed to execute command"));
+		exit(set_error(8, cmd.path));
 	}
 	return (cmd_pid);
 }
@@ -68,7 +68,7 @@ static int	is_valid_command(t_cmd cmd, int pipe_fd, char *outfile)
 			outfile_fd = open(outfile, O_CREAT | O_TRUNC | O_WRONLY, 0644);
 			close(outfile_fd);
 		}
-		log_error("Command not found");
+		set_error(2, cmd.args[0]);
 		return (0);
 	}
 	return (1);

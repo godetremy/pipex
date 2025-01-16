@@ -6,7 +6,7 @@
 /*   By: rgodet <rgodet@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 09:05:17 by rgodet            #+#    #+#             */
-/*   Updated: 2025/01/14 18:33:21 by rgodet           ###   ########.fr       */
+/*   Updated: 2025/01/16 09:56:55 by rgodet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <fcntl.h>
+# include <errno.h>
+# include <stdio.h>
 
 # ifndef MAX_BUFFER_SIZE
 #  define MAX_BUFFER_SIZE 4096
@@ -53,7 +55,7 @@ typedef struct s_params			t_params;
 
 t_params		check_arguments(int argc, char **argv);
 t_file_access	check_file_access(char *file);
-int				log_error(char *msg);
+int				set_error(int errno_code, char *msg);
 int				*ft_execute_cmd(t_params params, char **envp, int *status);
 t_cmd			parse_command(char *cmd, char **envp);
 char			**get_path_env(char **envp);

@@ -6,16 +6,15 @@
 /*   By: rgodet <rgodet@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 10:50:52 by rgodet            #+#    #+#             */
-/*   Updated: 2024/12/23 12:14:44 by rgodet           ###   ########.fr       */
+/*   Updated: 2025/01/16 09:57:58 by rgodet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 
-int	log_error(char *msg)
+int	set_error(int errno_code, char *msg)
 {
-	write(2, "\033[31m[ERROR] \033[0m", 18);
-	write(2, msg, ft_strlen(msg));
-	write(2, "\n", 1);
+	errno = errno_code;
+	perror(msg);
 	return (1);
 }
