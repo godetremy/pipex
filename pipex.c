@@ -12,7 +12,7 @@
 
 #include "pipex.h"
 
-static void	free_cmd(t_cmd cmd)
+void	free_cmd(t_cmd cmd)
 {
 	int	i;
 

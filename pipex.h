@@ -6,7 +6,7 @@
 /*   By: rgodet <rgodet@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 09:05:17 by rgodet            #+#    #+#             */
-/*   Updated: 2025/01/16 09:56:55 by rgodet           ###   ########.fr       */
+/*   Updated: 2025/01/16 14:07:17 by rgodet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ struct s_params
 typedef struct s_params			t_params;
 
 t_params		check_arguments(int argc, char **argv);
+void			free_cmd(t_cmd cmd);
 t_file_access	check_file_access(char *file);
 int				set_error(int errno_code, char *msg);
 int				*ft_execute_cmd(t_params params, char **envp, int *status);

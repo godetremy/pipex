@@ -6,7 +6,7 @@
 /*   By: rgodet <rgodet@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 11:52:02 by rgodet            #+#    #+#             */
-/*   Updated: 2025/01/16 09:51:53 by rgodet           ###   ########.fr       */
+/*   Updated: 2025/01/16 14:08:31 by rgodet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static pid_t	create_fork_in(t_cmd cmd, char *infile, int pipe[2],
 	return (cmd_pid);
 }
 
-static pid_t	create_fork_out(t_cmd cmd, int pipe[2], char *outfile,
+static pid_t	create_fork_out(t_params params, int pipe[2], char *outfile,
 								char **envp)
 {
 	pid_t	cmd_pid;
@@ -44,14 +44,20 @@ static pid_t	create_fork_out(t_cmd cmd, int pipe[2], char *outfile,
 	{
 		outfile_fd = open(outfile, O_CREAT | O_TRUNC | O_WRONLY, 0644);
 		if (outfile_fd == -1)
+		{
+            free_cmd(params.cmd1);
+        	free_cmd(params.cmd2);
 			exit(set_error(errno, outfile));
+        }
 		dup2(outfile_fd, STDOUT_FILENO);
 		dup2(pipe[0], STDIN_FILENO);
 		close(outfile_fd);
 		close(pipe[0]);
 		close(pipe[1]);
-		execve(cmd.path, cmd.args, envp);
-		exit(set_error(8, cmd.path));
+		execve(params.cmd2.path, params.cmd2.args, envp);
+		free_cmd(params.cmd1);
+        free_cmd(params.cmd2);
+		exit(set_error(errno, params.cmd2.path));
 	}
 	return (cmd_pid);
 }
@@ -105,7 +111,7 @@ int	*ft_execute_cmd(t_params params, char **envp, int *status)
 	cmd2_pid = 0;
 	close(pipe_fd[1]);
 	if (is_valid_command(params.cmd2, pipe_fd[0], params.file2) && params.file2)
-		cmd2_pid = create_fork_out(params.cmd2, pipe_fd, params.file2, envp);
+		cmd2_pid = create_fork_out(params, pipe_fd, params.file2, envp);
 	close(pipe_fd[0]);
 	if (cmd1_pid != 0)
 		waitpid(cmd1_pid, NULL, 0);
