@@ -6,7 +6,7 @@
 /*   By: rgodet <rgodet@student.1337.ma>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 11:52:02 by rgodet            #+#    #+#             */
-/*   Updated: 2025/01/16 17:43:57 by rgodet           ###   ########.fr       */
+/*   Updated: 2025/01/17 10:20:03 by rgodet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static pid_t	create_fork_in(t_cmd cmd, char *infile, int pipe[2],
 		close(pipe[0]);
 		close(pipe[1]);
 		execve(cmd.path, cmd.args, envp);
-		exit(set_error(8, cmd.path));
+		exit(set_error(errno, cmd.path));
 	}
 	return (cmd_pid);
 }
@@ -48,7 +48,6 @@ static pid_t	create_fork_out(t_params params, int pipe[2], char *outfile,
 			free_cmd(params.cmd1);
 			free_cmd(params.cmd2);
 			close(pipe[0]);
-			close(pipe[1]);
 			exit(set_error(errno, outfile));
 		}
 		dup2(outfile_fd, STDOUT_FILENO);
